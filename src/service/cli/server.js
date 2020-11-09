@@ -1,16 +1,9 @@
 "use strict";
 
-const fs = require(`fs`).promises;
 const express = require(`express`);
+const offersRoutes = require(`./routes/offers`);
 
 const DEFAULT_PORT = 3000;
-const FILENAME = `mocks.json`;
-
-const HttpCode = {
-  OK: 200,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
-};
 
 const run = (args) => {
   const [customPort] = args;
@@ -19,14 +12,14 @@ const run = (args) => {
   const app = express();
   app.use(express.json());
 
-  app.get(`/offers`, async (req, res) => {
-    try {
-      const fileContent = await fs.readFile(FILENAME);
-      const mocks = JSON.parse(fileContent);
-      res.json(mocks);
-    } catch (error) {
-      res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
-    }
+  app.use(`/api/offers`, offersRoutes);
+
+  app.get(`/api/categories`, (req, res) => {
+    res.send(`Send categories`);
+  });
+
+  app.get(`/api/search`, (req, res) => {
+    res.send(`Search with query param "${req.query.query}"`);
   });
 
   app.listen(port);

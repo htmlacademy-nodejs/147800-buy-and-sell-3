@@ -1,7 +1,7 @@
 # Учебный проект «Куплю. Продам» [![Build status][travis-image]][travis-url]
 
 - Студент: [Александр Сашин](https://up.htmlacademy.ru/nodejs/3/user/147800).
-- Наставник: [Андрей Маирович](https://htmlacademy.ru/profile/id1307747).
+- Наставник: [Артемий Бойков](https://htmlacademy.ru/profile/id607755).
 
 ---
 

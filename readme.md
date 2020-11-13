@@ -1,7 +1,7 @@
 # Учебный проект «Куплю. Продам» [![Build status][travis-image]][travis-url]
 
 - Студент: [Александр Сашин](https://up.htmlacademy.ru/nodejs/3/user/147800).
-- Наставник: [Сергей Рожков](https://htmlacademy.ru/profile/id1069033).
+- Наставник: [Артемий Бойков](https://htmlacademy.ru/profile/id607755).
 
 ---
 

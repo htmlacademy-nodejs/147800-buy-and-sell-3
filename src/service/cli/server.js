@@ -3,11 +3,11 @@
 const express = require(`express`);
 const offersRoutes = require(`./routes/offers`);
 
-const DEFAULT_PORT = 3000;
+const PORT = 3000;
 
 const run = (args) => {
   const [customPort] = args;
-  const port = Number.parseInt(customPort, 10) || DEFAULT_PORT;
+  const port = Number.parseInt(customPort, 10) || PORT;
 
   const app = express();
   app.use(express.json());

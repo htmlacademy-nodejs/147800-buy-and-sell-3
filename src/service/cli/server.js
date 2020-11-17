@@ -17,8 +17,8 @@ app.use((req, res, next) => {
 });
 
 app.use(`/api`, (req, res, next) => {
-  logger.info(`End request with status code ${res.statusCode}`);
   routes(req, res, next);
+  logger.info(`End request with status code ${res.statusCode}`);
 });
 
 app.use((req, res) => {

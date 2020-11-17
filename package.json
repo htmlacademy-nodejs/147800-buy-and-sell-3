@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/alexandrsashin/147800-buy-and-sell-3#readme",
   "devDependencies": {
-    "cross-env": "^7.0.2",
+    "cross-env": "7.0.2",
     "eslint": "7.3.0",
     "eslint-config-htmlacademy": "0.5.2",
     "eslint-config-prettier": "6.11.0",

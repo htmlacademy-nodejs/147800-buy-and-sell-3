@@ -8,7 +8,7 @@
     "start::debug": "cross-env LOG_LEVEL=debug node ./src/service/service.js",
     "server": "nodemon ./src/service/service.js -- --server 3000",
     "start-front-server": "nodemon ./src/express/index.js",
-    "test": "yarn test::rest",
+    "test": "npm run test::rest",
     "test::rest": "jest --coverage",
     "eslint": "eslint --ext .js src/"
   },

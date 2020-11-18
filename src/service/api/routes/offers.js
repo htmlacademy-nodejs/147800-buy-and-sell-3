@@ -1,3 +1,5 @@
+"use strict";
+
 const fs = require(`fs`).promises;
 const { Router } = require(`express`);
 const offersRouter = new Router();
@@ -25,6 +27,9 @@ offersRouter.post(`/`, (req, res) => {
 });
 
 offersRouter.get(`/:offerId`, (req, res) => {
+  if (Number(req.params.offerId) < 0) {
+    return res.status(HttpCode.NOT_FOUND).send(`Offer not found`);
+  }
   res.send(`Return offer by offerId="${req.params.offerId}"`);
 });
 

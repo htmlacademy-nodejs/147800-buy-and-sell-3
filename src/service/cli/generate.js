@@ -13,8 +13,8 @@ const FILE_CATEGORIES_PATH = `./data/categories.txt`;
 const FILE_COMMENTS_PATH = `./data/comments.txt`;
 
 const OfferType = {
-  OFFER: `offer`,
-  SALE: `sale`,
+  OFFER: `Куплю`,
+  SALE: `Продам`,
 };
 
 const SumRestrict = {
@@ -33,22 +33,26 @@ const getPictureFileName = (number) =>
 const generateOffers = (count, titles, categories, sentences, comments) =>
   Array(count)
     .fill({})
-    .map(() => ({
-      id: nanoid(),
-      category: [categories[getRandomInt(0, categories.length - 1)]],
-      description: shuffle(sentences).slice(1, 5).join(` `),
-      picture: getPictureFileName(
+    .map(() => {
+      const picture = getPictureFileName(
         getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)
-      ),
-      title: titles[getRandomInt(0, titles.length - 1)],
-      type: Object.keys(OfferType)[
-        Math.floor(Math.random() * Object.keys(OfferType).length)
-      ],
-      sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
-      comments: shuffle(comments)
-        .slice(1, getRandomInt(0, comments.length - 1))
-        .map((comment) => ({ id: nanoid(), text: comment })),
-    }));
+      );
+      return {
+        id: nanoid(),
+        category: [categories[getRandomInt(0, categories.length - 1)]],
+        description: shuffle(sentences).slice(1, 5).join(` `),
+        picture,
+        retinaPicture: picture.replace(`.jpg`, `@2x.jpg`),
+        title: titles[getRandomInt(0, titles.length - 1)],
+        type: Object.values(OfferType)[
+          Math.floor(Math.random() * Object.keys(OfferType).length)
+        ],
+        sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
+        comments: shuffle(comments)
+          .slice(1, getRandomInt(0, comments.length - 1))
+          .map((comment) => ({ id: nanoid(), text: comment })),
+      };
+    });
 
 const readContent = async (filePath) => {
   try {

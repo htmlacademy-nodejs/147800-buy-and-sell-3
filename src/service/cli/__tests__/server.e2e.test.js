@@ -47,10 +47,19 @@ describe(`server test`, () => {
     });
 
     test(`GET comments successfully`, async () => {
-      const res = await request(server).get(`/api/offers/1/comments`);
+      const offers = await request(server).get(`/api/offers`);
+      const res = await request(server).get(
+        `/api/offers/${offers.body[0].id}/comments`
+      );
 
       expect(res.statusCode).toBe(200);
-      expect(res.text).toEqual(`Return offer comments by offerId="1"`);
+    });
+
+    test(`GET comments with error`, async () => {
+      const res = await request(server).get(`/api/offers/0/comments`);
+
+      expect(res.statusCode).toBe(404);
+      expect(res.text).toBe(`Offer not found`);
     });
 
     test(`POST comment successfully`, async () => {

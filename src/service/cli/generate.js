@@ -87,4 +87,5 @@ const run = async (args) => {
 module.exports = {
   name: `--generate`,
   run,
+  readContent,
 };

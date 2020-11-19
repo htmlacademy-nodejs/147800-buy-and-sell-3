@@ -19,10 +19,11 @@ describe(`server test`, () => {
     });
 
     test(`GET offer successfully`, async () => {
-      const res = await request(server).get(`/api/offers/1`);
+      const offers = await request(server).get(`/api/offers`);
+      const res = await request(server).get(`/api/offers/${offers.body[0].id}`);
 
       expect(res.statusCode).toBe(200);
-      expect(res.text).toEqual(`Return offer by offerId="1"`);
+      expect(res.body).toEqual(offers.body[0]);
     });
 
     test(`GET offer with error`, async () => {
@@ -83,7 +84,17 @@ describe(`server test`, () => {
     const res = await request(server).get(`/api/categories`);
 
     expect(res.statusCode).toBe(200);
-    expect(res.text).toEqual(`Send categories`);
+    expect(res.body).toEqual([
+      `Книги`,
+      `Разное`,
+      `Посуда`,
+      `Игры`,
+      `Животные`,
+      `Журналы`,
+      `Компьютеры`,
+      `Телефоны`,
+      `Стройматериалы`,
+    ]);
   });
 
   test(`GET search successfully`, async () => {

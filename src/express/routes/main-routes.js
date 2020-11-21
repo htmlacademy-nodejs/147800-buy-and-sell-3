@@ -13,7 +13,7 @@ mainRouter.get(`/search`, async (req, res) => {
   const { data: offers } = await axios.get(`${URL}/api/search`, {
     params: { query: req.query.search || `` },
   });
-  const foundWord = plural(offers.length, `Найдена`, `Найдено`, `Найдены`);
+  const foundWord = plural(offers.length, `Найдена`, `Найдено`, `Найдено`);
   const publicationWords = plural(
     offers.length,
     `%d публикация`,

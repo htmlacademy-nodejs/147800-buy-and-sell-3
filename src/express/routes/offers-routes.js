@@ -52,7 +52,6 @@ offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
     res.redirect(`/my`);
   } catch (error) {
     const { data: categories } = await axios.get(`${URL}/api/categories`);
-    console.log({ data: req.body });
     res.render(`offers/new-ticket`, { data: req.body, categories });
   }
 });

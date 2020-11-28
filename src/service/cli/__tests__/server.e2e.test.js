@@ -19,10 +19,11 @@ describe(`server test`, () => {
     });
 
     test(`GET offer successfully`, async () => {
-      const res = await request(server).get(`/api/offers/1`);
+      const offers = await request(server).get(`/api/offers`);
+      const res = await request(server).get(`/api/offers/${offers.body[0].id}`);
 
       expect(res.statusCode).toBe(200);
-      expect(res.text).toEqual(`Return offer by offerId="1"`);
+      expect(res.body).toEqual(offers.body[0]);
     });
 
     test(`GET offer with error`, async () => {
@@ -47,10 +48,19 @@ describe(`server test`, () => {
     });
 
     test(`GET comments successfully`, async () => {
-      const res = await request(server).get(`/api/offers/1/comments`);
+      const offers = await request(server).get(`/api/offers`);
+      const res = await request(server).get(
+        `/api/offers/${offers.body[0].id}/comments`
+      );
 
       expect(res.statusCode).toBe(200);
-      expect(res.text).toEqual(`Return offer comments by offerId="1"`);
+    });
+
+    test(`GET comments with error`, async () => {
+      const res = await request(server).get(`/api/offers/0/comments`);
+
+      expect(res.statusCode).toBe(404);
+      expect(res.text).toBe(`Offer not found`);
     });
 
     test(`POST comment successfully`, async () => {
@@ -74,13 +84,23 @@ describe(`server test`, () => {
     const res = await request(server).get(`/api/categories`);
 
     expect(res.statusCode).toBe(200);
-    expect(res.text).toEqual(`Send categories`);
+    expect(res.body).toEqual([
+      `Книги`,
+      `Разное`,
+      `Посуда`,
+      `Игры`,
+      `Животные`,
+      `Журналы`,
+      `Компьютеры`,
+      `Телефоны`,
+      `Стройматериалы`,
+    ]);
   });
 
   test(`GET search successfully`, async () => {
-    const res = await request(server).get(`/api/search?query=offer`);
+    const res = await request(server).get(`/api/search?query=`);
 
     expect(res.statusCode).toBe(200);
-    expect(res.text).toEqual(`Search with query param "offer"`);
+    expect(res.body.length).not.toEqual(0);
   });
 });

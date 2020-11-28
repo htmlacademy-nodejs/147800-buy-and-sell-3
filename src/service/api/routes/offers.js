@@ -26,11 +26,20 @@ offersRouter.post(`/`, (req, res) => {
   res.send(`Add new offer`);
 });
 
-offersRouter.get(`/:offerId`, (req, res) => {
-  if (Number(req.params.offerId) < 0) {
-    return res.status(HttpCode.NOT_FOUND).send(`Offer not found`);
+offersRouter.get(`/:offerId`, async (req, res) => {
+  try {
+    const fileContent = await fs.readFile(FILENAME);
+    const offers = JSON.parse(fileContent);
+    const selectedOffer = offers.find(
+      (offer) => offer.id === req.params.offerId
+    );
+    if (!selectedOffer) {
+      return res.status(HttpCode.NOT_FOUND).send(`Offer not found`);
+    }
+    res.json(selectedOffer);
+  } catch (error) {
+    res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
   }
-  res.send(`Return offer by offerId="${req.params.offerId}"`);
 });
 
 offersRouter.put(`/:offerId`, (req, res) => {
@@ -41,8 +50,20 @@ offersRouter.delete(`/:offerId`, (req, res) => {
   res.send(`Delete offer with offerId="${req.params.offerId}"`);
 });
 
-offersRouter.get(`/:offerId/comments`, (req, res) => {
-  res.send(`Return offer comments by offerId="${req.params.offerId}"`);
+offersRouter.get(`/:offerId/comments`, async (req, res) => {
+  try {
+    const fileContent = await fs.readFile(FILENAME);
+    const offers = JSON.parse(fileContent);
+    const selectedOffer = offers.find(
+      (offer) => offer.id === req.params.offerId
+    );
+    if (!selectedOffer) {
+      return res.status(HttpCode.NOT_FOUND).send(`Offer not found`);
+    }
+    res.json(selectedOffer.comments);
+  } catch (error) {
+    res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
+  }
 });
 
 offersRouter.post(`/:offerId/comments`, (req, res) => {

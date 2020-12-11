@@ -1,0 +1,38 @@
+CREATE DATABASE db-buy-and-sell
+	WITH
+	OWNER = postgres;
+
+CREATE TABLE offers (
+	id SERIAL PRIMARY KEY,
+	FOREIGN KEY (categoryId) REFERENCES categories (id)
+		ON DELETE SET NULL
+		ON UPDATE SET NULL,
+	description TEXT NOT NULL,
+	picture VARCHAR(50),
+	retinaPicture VARCHAR(50),
+	title VARCHAR(50) NOT NULL,
+	FOREIGN KEY (typeId) REFERENCES types (id)
+		ON DELETE SET NULL
+		ON UPDATE SET NULL,
+	sum INTEGER,
+);
+
+CREATE TABLE categories (
+	id SERIAL PRIMARY KEY,
+	label VARCHAR(50)
+)
+
+CREATE TABLE types (
+	id SERIAL PRIMARY KEY,
+	label VARCHAR(50)
+)
+
+CREATE TABLE comments (
+	id SERIAL PRIMARY KEY,
+	text TEXT,
+	FOREIGN KEY (offerId) REFERENCES offers (id)
+		ON DELETE SET NULL
+		ON UPDATE SET NULL
+)
+
+GRANT ALL ON DATABASE db-buy-and-sell TO postgres;

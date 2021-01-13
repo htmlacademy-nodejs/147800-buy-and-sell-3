@@ -40,7 +40,9 @@ SET default_with_oids = false;
 
 CREATE TABLE public.categories (
     id integer NOT NULL,
-    label character varying(50)
+    label character varying(50),
+    picture character varying(50),
+    retina_picture character varying(50)
 );
 
 
@@ -126,7 +128,9 @@ CREATE TABLE public.offers (
     retina_picture character varying(50),
     title character varying(50) NOT NULL,
     sum integer,
-    type_id smallint
+    type_id smallint,
+    created_at timestamp(0) without time zone NOT NULL,
+    updated_at timestamp(0) without time zone NOT NULL
 );
 
 
@@ -189,6 +193,68 @@ ALTER SEQUENCE public.types_id_seq OWNED BY public.types.id;
 
 
 --
+-- Name: user_comments; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_comments (
+    user_id integer NOT NULL,
+    comment_id integer NOT NULL
+);
+
+
+ALTER TABLE public.user_comments OWNER TO postgres;
+
+--
+-- Name: user_offers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.user_offers (
+    user_id integer NOT NULL,
+    offer_id integer NOT NULL
+);
+
+
+ALTER TABLE public.user_offers OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id integer NOT NULL,
+    first_name character varying(50),
+    last_name character varying(50),
+    email character varying(50),
+    picture character varying(50),
+    retina_picture character varying(50)
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.users_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.users_id_seq OWNER TO postgres;
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
 -- Name: categories id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -217,10 +283,17 @@ ALTER TABLE ONLY public.types ALTER COLUMN id SET DEFAULT nextval('public.types_
 
 
 --
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
+
+
+--
 -- Data for Name: categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.categories (id, label) FROM stdin;
+COPY public.categories (id, label, picture, retina_picture) FROM stdin;
 \.
 
 
@@ -244,8 +317,8 @@ COPY public.offer_categories (offer_id, category_id) FROM stdin;
 -- Data for Name: offers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.offers (id, description, picture, retina_picture, title, sum, type_id) FROM stdin;
-2	Description	\N	\N	Title	\N	\N
+COPY public.offers (id, description, picture, retina_picture, title, sum, type_id, created_at, updated_at) FROM stdin;
+1	description	\N	\N	title	\N	\N	2020-12-20 00:00:00	2020-12-20 00:00:00
 \.
 
 
@@ -258,17 +331,41 @@ COPY public.types (id, label) FROM stdin;
 
 
 --
+-- Data for Name: user_comments; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_comments (user_id, comment_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: user_offers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.user_offers (user_id, offer_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, first_name, last_name, email, picture, retina_picture) FROM stdin;
+\.
+
+
+--
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 1, false);
+SELECT pg_catalog.setval('public.categories_id_seq', 15, true);
 
 
 --
 -- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.comments_id_seq', 1, false);
+SELECT pg_catalog.setval('public.comments_id_seq', 44, true);
 
 
 --
@@ -283,6 +380,13 @@ SELECT pg_catalog.setval('public.offers_id_seq', 2, true);
 --
 
 SELECT pg_catalog.setval('public.types_id_seq', 1, false);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.users_id_seq', 4, true);
 
 
 --
@@ -318,6 +422,14 @@ ALTER TABLE ONLY public.types
 
 
 --
+-- Name: users users_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pk PRIMARY KEY (id);
+
+
+--
 -- Name: comments comments_offer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -347,6 +459,38 @@ ALTER TABLE ONLY public.offer_categories
 
 ALTER TABLE ONLY public.offers
     ADD CONSTRAINT offers_typeid_fkey FOREIGN KEY (type_id) REFERENCES public.types(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: user_comments user_comments_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_comments
+    ADD CONSTRAINT user_comments_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE SET NULL ON DELETE RESTRICT;
+
+
+--
+-- Name: user_comments user_comments_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_comments
+    ADD CONSTRAINT user_comments_fk_1 FOREIGN KEY (comment_id) REFERENCES public.comments(id) ON UPDATE SET NULL ON DELETE RESTRICT;
+
+
+--
+-- Name: user_offers user_offers_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_offers
+    ADD CONSTRAINT user_offers_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE SET NULL ON DELETE CASCADE;
+
+
+--
+-- Name: user_offers user_offers_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.user_offers
+    ADD CONSTRAINT user_offers_fk_1 FOREIGN KEY (offer_id) REFERENCES public.offers(id) ON UPDATE SET NULL ON DELETE RESTRICT;
 
 
 --

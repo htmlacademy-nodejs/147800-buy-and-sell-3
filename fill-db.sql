@@ -1,3 +1,4 @@
+-- Add categories of offers
 INSERT INTO categories (label, picture, retina_picture) VALUES
 ('Дом', 'cat.jpg', 'cat@2x.jpg'),
 ('Электроника', 'cat02.jpg', 'cat02@2x.jpg'),
@@ -6,16 +7,19 @@ INSERT INTO categories (label, picture, retina_picture) VALUES
 ('Авто', 'cat05.jpg', 'cat05@2x.jpg'),
 ('Книги', 'cat06.jpg', 'cat06@2x.jpg');
 
+-- Add app users
 INSERT INTO users (first_name, last_name, email, picture, retina_picture) VALUES
 ('Иван', 'Иванов', 'ivan.ivanov@yandex.ru', 'avatar01.jpg', 'avatar01@2x.jpg'),
 ('Георгий', 'Шпиц', 'george.spitz@yandex.ru', 'avatar02.jpg', 'avatar02@2x.jpg'),
 ('Александр', 'Бурый', 'alexander.buriy@yandex.ru', 'avatar03.jpg', 'avatar03@2x.jpg'),
 ('Анатолий', 'Хакимов', 'anatoly.khakimov@yandex.ru', 'avatar04.jpg', 'avatar04@2x.jpg');
 
+-- Add offers types
 INSERT INTO types (label) VALUES
 ('Куплю'),
 ('Продам');
 
+-- Add offers
 INSERT INTO offers (title, description, type_id, sum, picture, retina_picture, created_at, updated_at) VALUES
 ('Куплю цветок','Цветок зелёный в горшке.',1,3000,'item01.jpg','item01@2x.jpg','2020-12-20','2020-12-20'),
 ('Куплю кресло','Серое кресло для офиса.',1,12000,'item02.jpg','item02@2x.jpg','2020-12-20','2020-12-20'),
@@ -34,6 +38,7 @@ INSERT INTO offers (title, description, type_id, sum, picture, retina_picture, c
 ('Куплю кофеварку','Стационарная кофеварка на 2-3 литра.',1,10000,'item15.jpg','item15@2x.jpg','2020-12-20','2020-12-20'),
 ('Продам автомобиль','Легковой автомобиль.',2,230000,'item16.jpg','item16@2x.jpg','2020-12-20','2020-12-20');
 
+-- Add comments for offers
 INSERT INTO comments (offer_id, text) VALUES
 (1, 'Неплохо, но дорого'),
 (1, 'Совсем немного...'),
@@ -58,6 +63,7 @@ INSERT INTO comments (offer_id, text) VALUES
 (5, 'А где блок питания?'),
 (5, 'Неплохо, но дорого');
 
+-- Add relations between offers and categories
 INSERT INTO offer_categories (offer_id, category_id) VALUES 
 (1, 1),
 (2, 1),
@@ -76,6 +82,7 @@ INSERT INTO offer_categories (offer_id, category_id) VALUES
 (15, 1),
 (16, 5);
 
+-- Add relations between users and offers
 INSERT INTO user_offers (user_id, offer_id) VALUES 
 (1, 1),
 (1, 2),
@@ -94,6 +101,7 @@ INSERT INTO user_offers (user_id, offer_id) VALUES
 (2, 15),
 (2, 16);
 
+-- Add relations between users and comments
 INSERT INTO user_comments (user_id, comment_id) VALUES 
 (1, 1),
 (2, 2),

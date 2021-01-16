@@ -77,7 +77,8 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 CREATE TABLE public.comments (
     id integer NOT NULL,
     offer_id integer,
-    text text
+    text text,
+    created_at timestamp(0) without time zone
 );
 
 
@@ -301,7 +302,7 @@ COPY public.categories (id, label, picture, retina_picture) FROM stdin;
 -- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.comments (id, offer_id, text) FROM stdin;
+COPY public.comments (id, offer_id, text, created_at) FROM stdin;
 \.
 
 
@@ -358,35 +359,35 @@ COPY public.users (id, first_name, last_name, email, picture, retina_picture) FR
 -- Name: categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.categories_id_seq', 15, true);
+SELECT pg_catalog.setval('public.categories_id_seq', 1, true);
 
 
 --
 -- Name: comments_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.comments_id_seq', 44, true);
+SELECT pg_catalog.setval('public.comments_id_seq', 1, true);
 
 
 --
 -- Name: offers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.offers_id_seq', 2, true);
+SELECT pg_catalog.setval('public.offers_id_seq', 1, true);
 
 
 --
 -- Name: types_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.types_id_seq', 1, false);
+SELECT pg_catalog.setval('public.types_id_seq', 1, true);
 
 
 --
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.users_id_seq', 4, true);
+SELECT pg_catalog.setval('public.users_id_seq', 1, true);
 
 
 --
@@ -496,4 +497,3 @@ ALTER TABLE ONLY public.user_offers
 --
 -- PostgreSQL database dump complete
 --
-

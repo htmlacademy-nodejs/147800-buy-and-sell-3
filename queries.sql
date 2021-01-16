@@ -6,7 +6,7 @@ SELECT categories.id, categories.label FROM categories
 INNER JOIN offer_categories ON offer_categories.category_id = categories.id
 INNER JOIN offers ON offers.id = offer_categories.offer_id
 GROUP BY categories.id
-HAVING count(categories.id) > 1;
+HAVING count(categories.id) > 0;
 
 -- get categories with offers count (id, label, offers count)
 SELECT categories.id, categories.label, count(categories.id) as "offers count" FROM categories 

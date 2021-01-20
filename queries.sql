@@ -29,8 +29,7 @@ SELECT
   count(comments.id) as "comments count" 
   FROM offers
 INNER JOIN types ON offers.type_id = types.id
-INNER JOIN user_offers ON offers.id = user_offers.offer_id
-INNER JOIN users ON users.id = user_offers.user_id
+INNER JOIN users ON users.id = offers.user_id
   INNER JOIN comments ON comments.offer_id = offers.id
   GROUP BY offers.id, types.label, users.id
 ORDER BY offers.created_at DESC;
@@ -49,8 +48,7 @@ SELECT
   count(comments.id) as "comments count" 
   FROM offers
 INNER JOIN types ON offers.type_id = types.id
-INNER JOIN user_offers ON offers.id = user_offers.offer_id
-INNER JOIN users ON users.id = user_offers.user_id
+INNER JOIN users ON users.id = offers.user_id
   INNER JOIN comments ON comments.offer_id = offers.id
   GROUP BY offers.id, types.label, users.id
 HAVING offers.id = 1;
@@ -63,8 +61,7 @@ SELECT
   users.last_name as "user last name",
   comments.text
 FROM comments
-INNER JOIN user_comments ON user_comments.comment_id = comments.id
-INNER JOIN users ON user_comments.user_id = users.id
+INNER JOIN users ON comments.user_id = users.id
 ORDER BY comments.created_at DESC
 LIMIT 5;
 
@@ -76,8 +73,7 @@ SELECT
   users.last_name as "user last name",
   comments.text
 FROM comments
-INNER JOIN user_comments ON user_comments.comment_id = comments.id
-INNER JOIN users ON user_comments.user_id = users.id
+INNER JOIN users ON comments.user_id = users.id
 INNER JOIN offers ON comments.offer_id = offers.id
 GROUP BY comments.id, users.id, offers.id
 HAVING offers.id = 1

@@ -40,7 +40,7 @@ SET default_with_oids = false;
 
 CREATE TABLE public.categories (
     id integer NOT NULL,
-    label character varying(50),
+    label character varying(50) NOT NULL,
     picture character varying(50),
     retina_picture character varying(50)
 );
@@ -76,10 +76,10 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 CREATE TABLE public.comments (
     id integer NOT NULL,
-    offer_id integer,
-    text text,
-    created_at timestamp(0) without time zone,
-    user_id integer
+    offer_id integer NOT NULL,
+    text text NOT NULL,
+    created_at timestamp(0) without time zone NOT NULL,
+    user_id integer NOT NULL
 );
 
 
@@ -112,8 +112,8 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 --
 
 CREATE TABLE public.offer_categories (
-    offer_id integer,
-    category_id integer
+    offer_id integer NOT NULL,
+    category_id integer NOT NULL
 );
 
 
@@ -129,10 +129,10 @@ CREATE TABLE public.offers (
     picture character varying(50),
     retina_picture character varying(50),
     title character varying(50) NOT NULL,
-    sum integer,
-    type_id smallint,
+    sum integer NOT NULL,
+    type_id smallint NOT NULL,
     created_at timestamp(0) without time zone NOT NULL,
-    user_id integer
+    user_id integer NOT NULL
 );
 
 
@@ -200,11 +200,11 @@ ALTER SEQUENCE public.types_id_seq OWNED BY public.types.id;
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    first_name character varying(50),
-    last_name character varying(50),
-    email character varying(50),
-    picture character varying(50),
-    retina_picture character varying(50)
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(50) NOT NULL,
+    picture character varying(50) NOT NULL,
+    retina_picture character varying(50) NOT NULL
 );
 
 

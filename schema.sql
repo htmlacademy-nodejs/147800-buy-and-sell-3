@@ -296,7 +296,6 @@ COPY public.offer_categories (offer_id, category_id) FROM stdin;
 --
 
 COPY public.offers (id, description, picture, retina_picture, title, sum, type_id, created_at, user_id) FROM stdin;
-1	description	\N	\N	title	\N	\N	2020-12-20 00:00:00	2020-12-20 00:00:00
 \.
 
 

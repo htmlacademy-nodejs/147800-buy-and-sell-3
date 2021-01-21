@@ -397,15 +397,15 @@ ALTER TABLE ONLY public.users
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT comments_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: comments comments_fk1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: comments comments_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_fk1 FOREIGN KEY (offer_id) REFERENCES public.offers(id);
+    ADD CONSTRAINT comments_fk_1 FOREIGN KEY (offer_id) REFERENCES public.offers(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -429,15 +429,15 @@ ALTER TABLE ONLY public.offer_categories
 --
 
 ALTER TABLE ONLY public.offers
-    ADD CONSTRAINT offers_fk FOREIGN KEY (user_id) REFERENCES public.users(id);
+    ADD CONSTRAINT offers_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: offers offers_typeid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: offers offers_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.offers
-    ADD CONSTRAINT offers_typeid_fkey FOREIGN KEY (type_id) REFERENCES public.types(id) ON UPDATE SET NULL ON DELETE SET NULL;
+    ADD CONSTRAINT offers_fk_1 FOREIGN KEY (type_id) REFERENCES public.types(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --

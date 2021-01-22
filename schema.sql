@@ -40,7 +40,7 @@ SET default_with_oids = false;
 
 CREATE TABLE public.categories (
     id integer NOT NULL,
-    label character varying(50),
+    label character varying(50) NOT NULL,
     picture character varying(50),
     retina_picture character varying(50)
 );
@@ -76,9 +76,10 @@ ALTER SEQUENCE public.categories_id_seq OWNED BY public.categories.id;
 
 CREATE TABLE public.comments (
     id integer NOT NULL,
-    offer_id integer,
-    text text,
-    created_at timestamp(0) without time zone
+    offer_id integer NOT NULL,
+    text text NOT NULL,
+    created_at timestamp(0) without time zone NOT NULL,
+    user_id integer NOT NULL
 );
 
 
@@ -111,8 +112,8 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 --
 
 CREATE TABLE public.offer_categories (
-    offer_id integer,
-    category_id integer
+    offer_id integer NOT NULL,
+    category_id integer NOT NULL
 );
 
 
@@ -128,10 +129,10 @@ CREATE TABLE public.offers (
     picture character varying(50),
     retina_picture character varying(50),
     title character varying(50) NOT NULL,
-    sum integer,
-    type_id smallint,
+    sum integer NOT NULL,
+    type_id smallint NOT NULL,
     created_at timestamp(0) without time zone NOT NULL,
-    updated_at timestamp(0) without time zone NOT NULL
+    user_id integer NOT NULL
 );
 
 
@@ -194,40 +195,16 @@ ALTER SEQUENCE public.types_id_seq OWNED BY public.types.id;
 
 
 --
--- Name: user_comments; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.user_comments (
-    user_id integer NOT NULL,
-    comment_id integer NOT NULL
-);
-
-
-ALTER TABLE public.user_comments OWNER TO postgres;
-
---
--- Name: user_offers; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.user_offers (
-    user_id integer NOT NULL,
-    offer_id integer NOT NULL
-);
-
-
-ALTER TABLE public.user_offers OWNER TO postgres;
-
---
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    first_name character varying(50),
-    last_name character varying(50),
-    email character varying(50),
-    picture character varying(50),
-    retina_picture character varying(50)
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50) NOT NULL,
+    email character varying(50) NOT NULL,
+    picture character varying(50) NOT NULL,
+    retina_picture character varying(50) NOT NULL
 );
 
 
@@ -302,7 +279,7 @@ COPY public.categories (id, label, picture, retina_picture) FROM stdin;
 -- Data for Name: comments; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.comments (id, offer_id, text, created_at) FROM stdin;
+COPY public.comments (id, offer_id, text, created_at, user_id) FROM stdin;
 \.
 
 
@@ -318,8 +295,7 @@ COPY public.offer_categories (offer_id, category_id) FROM stdin;
 -- Data for Name: offers; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.offers (id, description, picture, retina_picture, title, sum, type_id, created_at, updated_at) FROM stdin;
-1	description	\N	\N	title	\N	\N	2020-12-20 00:00:00	2020-12-20 00:00:00
+COPY public.offers (id, description, picture, retina_picture, title, sum, type_id, created_at, user_id) FROM stdin;
 \.
 
 
@@ -330,20 +306,6 @@ COPY public.offers (id, description, picture, retina_picture, title, sum, type_i
 COPY public.types (id, label) FROM stdin;
 \.
 
-
---
--- Data for Name: user_comments; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.user_comments (user_id, comment_id) FROM stdin;
-\.
-
-
---
--- Data for Name: user_offers; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.user_offers (user_id, offer_id) FROM stdin;
 \.
 
 
@@ -431,11 +393,19 @@ ALTER TABLE ONLY public.users
 
 
 --
--- Name: comments comments_offer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: comments comments_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.comments
-    ADD CONSTRAINT comments_offer_id_fkey FOREIGN KEY (offer_id) REFERENCES public.offers(id) ON UPDATE SET NULL ON DELETE CASCADE;
+    ADD CONSTRAINT comments_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
+
+
+--
+-- Name: comments comments_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.comments
+    ADD CONSTRAINT comments_fk_1 FOREIGN KEY (offer_id) REFERENCES public.offers(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -455,43 +425,19 @@ ALTER TABLE ONLY public.offer_categories
 
 
 --
--- Name: offers offers_typeid_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: offers offers_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.offers
-    ADD CONSTRAINT offers_typeid_fkey FOREIGN KEY (type_id) REFERENCES public.types(id) ON UPDATE SET NULL ON DELETE SET NULL;
+    ADD CONSTRAINT offers_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --
--- Name: user_comments user_comments_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: offers offers_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.user_comments
-    ADD CONSTRAINT user_comments_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE SET NULL ON DELETE RESTRICT;
-
-
---
--- Name: user_comments user_comments_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.user_comments
-    ADD CONSTRAINT user_comments_fk_1 FOREIGN KEY (comment_id) REFERENCES public.comments(id) ON UPDATE SET NULL ON DELETE RESTRICT;
-
-
---
--- Name: user_offers user_offers_fk; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.user_offers
-    ADD CONSTRAINT user_offers_fk FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE SET NULL ON DELETE CASCADE;
-
-
---
--- Name: user_offers user_offers_fk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.user_offers
-    ADD CONSTRAINT user_offers_fk_1 FOREIGN KEY (offer_id) REFERENCES public.offers(id) ON UPDATE SET NULL ON DELETE RESTRICT;
+ALTER TABLE ONLY public.offers
+    ADD CONSTRAINT offers_fk_1 FOREIGN KEY (type_id) REFERENCES public.types(id) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 
 --

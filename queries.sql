@@ -60,8 +60,8 @@ GROUP BY offers.id, types.id, users.id;
 SELECT 
   comments.id,
   comments.offer_id,
-  users.first_name as "user first name",
-  users.last_name as "user last name",
+  users.first_name as user_first_name,
+  users.last_name as user_last_name,
   comments.text
 FROM comments
 INNER JOIN users ON comments.user_id = users.id
@@ -72,8 +72,8 @@ LIMIT 5;
 SELECT 
   comments.id,
   comments.offer_id,
-  users.first_name as "user first name",
-  users.last_name as "user last name",
+  users.first_name as user_first_name,
+  users.last_name as user_last_name,
   comments.text
 FROM comments
 INNER JOIN users ON comments.user_id = users.id

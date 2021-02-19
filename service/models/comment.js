@@ -3,9 +3,9 @@
 const { Model, DataTypes } = require(`sequelize`);
 
 module.exports = (sequelize) => {
-  class CommentsModel extends Model {}
+  class CommentModel extends Model {}
 
-  CommentsModel.init(
+  CommentModel.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -31,10 +31,12 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
+      modelName: `CommentModel`,
+      tableName: `comments`,
       timestamps: true,
       updatedAt: false
     }
   );
 
-  return CommentsModel;
+  return CommentModel;
 };

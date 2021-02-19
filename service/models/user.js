@@ -3,9 +3,9 @@
 const { Model, DataTypes } = require(`sequelize`);
 
 module.exports = (sequelize) => {
-  class CategoriesModel extends Model {}
+  class UserModel extends Model {}
 
-  CategoriesModel.init(
+  UserModel.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -13,7 +13,17 @@ module.exports = (sequelize) => {
         primaryKey: true,
         allowNull: false
       },
-      label: {
+      firstName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: `first_name`
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        field: `last_name`
+      },
+      email: {
         type: DataTypes.STRING,
         allowNull: false
       },
@@ -27,9 +37,11 @@ module.exports = (sequelize) => {
     },
     {
       sequelize,
+      modelName: `UserModel`,
+      tableName: `users`,
       timestamps: false
     }
   );
 
-  return CategoriesModel;
+  return UserModel;
 };

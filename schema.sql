@@ -166,7 +166,7 @@ ALTER SEQUENCE public.offers_id_seq OWNED BY public.offers.id;
 
 CREATE TABLE public.types (
     id integer NOT NULL,
-    label character varying(50)
+    label character varying(50) NOT NULL
 );
 
 

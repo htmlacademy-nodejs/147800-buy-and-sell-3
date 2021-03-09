@@ -4,7 +4,7 @@ const fs = require(`fs`).promises;
 const { Router } = require(`express`);
 const { readContent } = require(`../cli/generate`);
 const offersRoutes = require(`./routes/offers`);
-const SearchService = require(`../data-service/search`);
+// const SearchService = require(`../data-service/search`);
 const OfferService = require(`../data-service/offer`);
 
 const app = new Router();
@@ -30,7 +30,7 @@ app.get(`/cat`, async (req, res) => {
 app.get(`/search`, async (req, res) => {
   try {
     const { query } = req.query;
-    const data = await SearchService.findAll(query);
+    // const data = await SearchService.findAll(query);
     // const fileContent = await fs.readFile(FILENAME);
     // const offers = JSON.parse(fileContent);
     // const filteredOffers = offers.filter((offer) =>

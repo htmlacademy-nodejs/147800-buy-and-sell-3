@@ -9,7 +9,9 @@ class OfferService {
     // if (needComments) {
     //   include.push(Aliase.COMMENTS);
     // }
-    const offers = await Offer.findAll({ include: [{ model: Type }] });
+    const offers = await Offer.findAll({
+      include: [{ model: Type, as: Aliase.TYPES }]
+    });
     return offers;
     // return offers.map((item) => item.get({ include }));
   }

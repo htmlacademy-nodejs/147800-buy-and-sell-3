@@ -12,7 +12,7 @@ const UPLOAD_DIR = `public/img`;
 const MimeTypeExtension = {
   "image/png": `png`,
   "image/jpeg": `jpg`,
-  "image/jpg": `jpg`,
+  "image/jpg": `jpg`
 };
 
 const storage = multer.diskStorage({
@@ -20,7 +20,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const fileExtention = MimeTypeExtension[file.mimetype];
     cb(null, `${nanoid()}.${fileExtention}`);
-  },
+  }
 });
 
 const fileFilter = (req, file, cb) => {
@@ -33,15 +33,15 @@ const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
+    fileSize: 5 * 1024 * 1024
+  }
 });
 
 offersRouter.get(`/add`, async (req, res) => {
   const { data: categories } = await axios.get(`${URL}/api/categories`);
   res.render(`offers/new-ticket`, {
     data: {},
-    categories,
+    categories
   });
 });
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
@@ -55,7 +55,20 @@ offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
     res.render(`offers/new-ticket`, { data: req.body, categories });
   }
 });
-offersRouter.get(`/category/:id`, (req, res) => res.render(`offers/category`));
+offersRouter.get(`/category/:id`, async (req, res) => {
+  const id = Number(req.params.id);
+  const { data: categories } = await axios.get(`${URL}/api/categories`);
+  const { data: category } = await axios.get(`${URL}/api/categories/${id}`);
+  const { data: offers } = await axios.get(
+    `${URL}/api/offers?categoryId=${id}`
+  );
+  res.render(`offers/category`, {
+    id,
+    selectedCategory: category,
+    categories,
+    offers
+  });
+});
 offersRouter.get(`/edit/:id`, async (req, res) => {
   const { data: offer } = await axios.get(`${URL}/api/offers/${req.params.id}`);
   const { data: categories } = await axios.get(`${URL}/api/categories`);

@@ -5,6 +5,7 @@ const { Router } = require(`express`);
 const { readContent } = require(`../cli/generate`);
 const offersRoutes = require(`./routes/offers`);
 // const SearchService = require(`../data-service/search`);
+const { CategoryService } = require(`../data-service`);
 const OfferService = require(`../data-service/offer`);
 
 const app = new Router();
@@ -18,8 +19,15 @@ const HttpCode = {
 app.use(`/offers`, offersRoutes);
 
 app.get(`/categories`, async (req, res) => {
-  const categories = await readContent(`./data/categories.txt`);
-  res.json(categories);
+  const { count } = req.query;
+  const categories = await new CategoryService().findAll(count);
+  res.status(HttpCode.OK).json(categories);
+});
+
+app.get(`/categories/:id`, async (req, res) => {
+  const { id } = req.params;
+  const category = await new CategoryService().findOne(id);
+  res.status(HttpCode.OK).json(category);
 });
 
 app.get(`/cat`, async (req, res) => {

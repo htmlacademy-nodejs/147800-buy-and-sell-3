@@ -3,20 +3,21 @@
 const fs = require(`fs`).promises;
 const { Router } = require(`express`);
 const offersRouter = new Router();
+const { OfferService } = require(`../../data-service`);
 
 const FILENAME = `mocks.json`;
 
 const HttpCode = {
   OK: 200,
   NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500,
+  INTERNAL_SERVER_ERROR: 500
 };
 
 offersRouter.get(`/`, async (req, res) => {
   try {
-    const fileContent = await fs.readFile(FILENAME);
-    const mockContent = JSON.parse(fileContent);
-    res.json(mockContent);
+    const { count, categoryId } = req.query;
+    const categories = await new OfferService().findAll({ count, categoryId });
+    res.status(HttpCode.OK).json(categories);
   } catch (error) {
     res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
   }

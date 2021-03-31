@@ -1,31 +1,34 @@
 "use strict";
 
 const Aliase = require(`../models/constants/aliase`);
-const { Category, Comment, Offer, Type, User } = require(`../models/index`);
+const {
+  Category,
+  Comment,
+  Offer,
+  Type,
+  User,
+  OfferCategory
+} = require(`../models/index`);
 
 class OfferService {
-  async findAll({ categoryId }) {
-    // const include = [Aliase.CATEGORIES, Aliase.TYPE];
-    // if (needComments) {
-    //   include.push(Aliase.COMMENTS);
-    // }
+  async findAll({ userId, categoryId }) {
     const offers = await Offer.findAll({
       include: [
-        Aliase.COMMENTS,
+        {
+          model: Comment,
+          as: Aliase.COMMENTS
+        },
         Aliase.TYPE,
-        Aliase.USER,
+        { model: User, as: Aliase.USER, where: userId ? { id: userId } : {} },
         {
           model: Category,
           as: Aliase.CATEGORIES,
-          where: {
-            id: categoryId
-          }
+          where: categoryId ? { id: categoryId } : {}
         }
       ],
       attributes: { exclude: [`typeId`, `userId`] }
     });
     return offers;
-    // return offers.map((item) => item.get({ include }));
   }
 }
 

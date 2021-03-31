@@ -15,8 +15,12 @@ const HttpCode = {
 
 offersRouter.get(`/`, async (req, res) => {
   try {
-    const { count, categoryId } = req.query;
-    const categories = await new OfferService().findAll({ count, categoryId });
+    const { count, categoryId, userId } = req.query;
+    const categories = await new OfferService().findAll({
+      count,
+      categoryId,
+      userId
+    });
     res.status(HttpCode.OK).json(categories);
   } catch (error) {
     res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);

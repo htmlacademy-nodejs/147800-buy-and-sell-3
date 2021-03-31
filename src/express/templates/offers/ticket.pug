@@ -1,6 +1,11 @@
 extends ../offers-layout.pug
 
 block content
+  -
+    const formatDate = (dateString) => {
+      const date = new Date(dateString);
+      return date.toLocaleString();
+    }
   main.page-content
     section.ticket
       .ticket__wrapper
@@ -20,8 +25,8 @@ block content
                 | #{offer.description}
             .ticket__data
               p
-                b Дата добавления:
-                span #{offer.createdAt}
+                b Дата добавления: 
+                span #{formatDate(offer.createdAt)}
               p
                 b Автор: 
                 a(href='#') #{offer.user.firstName} #{offer.user.lastName}

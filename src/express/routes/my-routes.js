@@ -16,8 +16,8 @@ myRouter.get(`/comments`, async (req, res) => {
   }
 });
 myRouter.get(`/`, async (req, res) => {
-  const { data } = await axios.get(`${URL}/api/offers`);
-  res.render(`my/my-tickets`, { offers: data });
+  const { data: offers } = await axios.get(`${URL}/api/offers?userId=1`);
+  res.render(`my/my-tickets`, { offers });
 });
 
 module.exports = myRouter;

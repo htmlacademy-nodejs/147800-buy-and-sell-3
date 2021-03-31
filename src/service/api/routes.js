@@ -1,15 +1,11 @@
 "use strict";
 
-const fs = require(`fs`).promises;
 const { Router } = require(`express`);
-const { readContent } = require(`../cli/generate`);
 const offersRoutes = require(`./routes/offers`);
-// const SearchService = require(`../data-service/search`);
 const { CategoryService } = require(`../data-service`);
 const OfferService = require(`../data-service/offer`);
 
 const app = new Router();
-const FILENAME = `mocks.json`;
 const HttpCode = {
   OK: 200,
   NOT_FOUND: 404,
@@ -35,19 +31,19 @@ app.get(`/cat`, async (req, res) => {
   res.json(categories);
 });
 
-app.get(`/search`, async (req, res) => {
-  try {
-    const { query } = req.query;
-    // const data = await SearchService.findAll(query);
-    // const fileContent = await fs.readFile(FILENAME);
-    // const offers = JSON.parse(fileContent);
-    // const filteredOffers = offers.filter((offer) =>
-    //   offer.title.toLowerCase().includes(query.toLowerCase().trim())
-    // );
-    res.json(`jee`);
-  } catch (error) {
-    res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
-  }
-});
+// app.get(`/search`, async (req, res) => {
+//   try {
+//     const { query } = req.query;
+// const data = await SearchService.findAll(query);
+// const fileContent = await fs.readFile(FILENAME);
+// const offers = JSON.parse(fileContent);
+// const filteredOffers = offers.filter((offer) =>
+//   offer.title.toLowerCase().includes(query.toLowerCase().trim())
+// );
+//     res.json(`jee`);
+//   } catch (error) {
+//     res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
+//   }
+// });
 
 module.exports = app;

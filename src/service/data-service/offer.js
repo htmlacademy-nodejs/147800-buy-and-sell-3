@@ -1,5 +1,6 @@
 "use strict";
 
+const { Op } = require(`sequelize`);
 const Aliase = require(`../models/constants/aliase`);
 const {
   Category,
@@ -11,8 +12,21 @@ const {
 } = require(`../models/index`);
 
 class OfferService {
-  async findAll({ userId, categoryId }) {
+  async findAll({ query, offerId, userId, categoryId }) {
+    let whereStatement = {};
+    if (offerId) {
+      whereStatement = { ...whereStatement, id: offerId };
+    }
+    if (query) {
+      whereStatement = {
+        ...whereStatement,
+        title: {
+          [Op.substring]: query
+        }
+      };
+    }
     const offers = await Offer.findAll({
+      where: whereStatement,
       include: [
         {
           model: Comment,

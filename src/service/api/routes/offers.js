@@ -15,8 +15,9 @@ const HttpCode = {
 
 offersRouter.get(`/`, async (req, res) => {
   try {
-    const { count, categoryId, userId } = req.query;
+    const { count, query, categoryId, userId } = req.query;
     const categories = await new OfferService().findAll({
+      query,
       count,
       categoryId,
       userId
@@ -33,15 +34,14 @@ offersRouter.post(`/`, (req, res) => {
 
 offersRouter.get(`/:offerId`, async (req, res) => {
   try {
-    const fileContent = await fs.readFile(FILENAME);
-    const offers = JSON.parse(fileContent);
-    const selectedOffer = offers.find(
-      (offer) => offer.id === req.params.offerId
-    );
+    const { offerId } = req.params;
+    const [selectedOffer] = await new OfferService().findAll({
+      offerId
+    });
     if (!selectedOffer) {
       return res.status(HttpCode.NOT_FOUND).send(`Offer not found`);
     }
-    res.json(selectedOffer);
+    res.status(HttpCode.OK).json(selectedOffer);
   } catch (error) {
     res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
   }

@@ -74,6 +74,9 @@ offersRouter.get(`/edit/:id`, async (req, res) => {
   const { data: categories } = await axios.get(`${URL}/api/categories`);
   res.render(`offers/ticket-edit`, { offer, categories });
 });
-offersRouter.get(`/:id`, (req, res) => res.render(`offers/ticket`));
+offersRouter.get(`/:id`, async (req, res) => {
+  const { data: offer } = await axios.get(`${URL}/api/offers/${req.params.id}`);
+  res.render(`offers/ticket`, { offer });
+});
 
 module.exports = offersRouter;

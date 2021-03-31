@@ -30,7 +30,11 @@ mainRouter.get(`/search`, async (req, res) => {
 mainRouter.get(`/`, async (req, res) => {
   const { data: categories } = await axios.get(`${URL}/api/categories`);
   const { data: offers } = await axios.get(`${URL}/api/offers`);
-  res.render(`main/main`, { offers, categories });
+  if (offers.length > 0) {
+    res.render(`main/main`, { offers, categories });
+  } else {
+    res.render(`main/main--empty`);
+  }
 });
 
 module.exports = mainRouter;

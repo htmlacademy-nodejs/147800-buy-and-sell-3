@@ -11,7 +11,7 @@ mainRouter.get(`/login`, (req, res) => res.render(`main/login`));
 mainRouter.get(`/register`, (req, res) => res.render(`main/sign-up`));
 mainRouter.get(`/search`, async (req, res) => {
   const { data: offers } = await axios.get(`${URL}/api/search`, {
-    params: { query: req.query.search || `` },
+    params: { query: req.query.search || `` }
   });
   const foundWord = plural(offers.length, `Найдена`, `Найдено`, `Найдено`);
   const publicationWords = plural(
@@ -24,12 +24,13 @@ mainRouter.get(`/search`, async (req, res) => {
   res.render(`main/search-result`, {
     offers,
     foundWord,
-    publicationWords,
+    publicationWords
   });
 });
 mainRouter.get(`/`, async (req, res) => {
-  const { data } = await axios.get(`${URL}/api/offers`);
-  res.render(`main/main`, { offers: data });
+  const { data: categories } = await axios.get(`${URL}/api/categories`);
+  const { data: offers } = await axios.get(`${URL}/api/offers`);
+  res.render(`main/main`, { offers, categories });
 });
 
 module.exports = mainRouter;

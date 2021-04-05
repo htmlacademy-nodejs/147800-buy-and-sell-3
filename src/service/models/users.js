@@ -8,10 +8,10 @@ class UserModel extends Model {}
 UserModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
     },
     firstName: {
       type: DataTypes.STRING,
@@ -39,7 +39,15 @@ UserModel.init(
     sequelize,
     modelName: `UserModel`,
     tableName: `users`,
-    timestamps: false
+    schema: `public`,
+    timestamps: false,
+    indexes: [
+      {
+        name: `users_pk`,
+        unique: true,
+        fields: [{ name: `id` }]
+      }
+    ]
   }
 );
 

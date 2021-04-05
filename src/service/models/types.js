@@ -8,10 +8,10 @@ class TypeModel extends Model {}
 TypeModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
     },
     label: {
       type: DataTypes.STRING,
@@ -22,7 +22,15 @@ TypeModel.init(
     sequelize,
     modelName: `TypeModel`,
     tableName: `types`,
-    timestamps: false
+    schema: `public`,
+    timestamps: false,
+    indexes: [
+      {
+        name: `types_pkey`,
+        unique: true,
+        fields: [{ name: `id` }]
+      }
+    ]
   }
 );
 

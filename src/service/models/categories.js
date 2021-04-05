@@ -8,10 +8,10 @@ class CategoryModel extends Model {}
 CategoryModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
     },
     label: {
       type: DataTypes.STRING,
@@ -27,9 +27,17 @@ CategoryModel.init(
   },
   {
     sequelize,
-    modelName: `CategoryModel`,
     tableName: `categories`,
-    timestamps: false
+    modelName: `CategoryModel`,
+    schema: `public`,
+    timestamps: false,
+    indexes: [
+      {
+        name: `categories_pkey`,
+        unique: true,
+        fields: [{ name: `id` }]
+      }
+    ]
   }
 );
 

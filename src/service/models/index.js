@@ -2,32 +2,54 @@
 
 const { DataTypes, Model } = require(`sequelize`);
 const sequelize = require(`../sequelize`);
-const Category = require(`./category`);
-const Comment = require(`./comment`);
-const Offer = require(`./offer`);
-const Type = require(`./type`);
-const User = require(`./user`);
+const Category = require(`./categories`);
+const Comment = require(`./comments`);
+const Offer = require(`./offers`);
+const Type = require(`./types`);
+const User = require(`./users`);
 const Aliase = require(`./constants/aliase`);
 
 class OfferCategory extends Model {}
 OfferCategory.init(
   {
+    id: {
+      autoIncrement: true,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
+    },
     offerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: `offer_id`
+      field: `offer_id`,
+      references: {
+        model: `offers`,
+        key: `id`
+      }
     },
     categoryId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: `category_id`
+      field: `category_id`,
+      references: {
+        model: `categories`,
+        key: `id`
+      }
     }
   },
   {
     sequelize,
     modelName: `OfferCategory`,
     tableName: `offer_categories`,
-    timestamps: false
+    timestamps: false,
+    schema: `public`,
+    indexes: [
+      {
+        name: `offer_categories_pk`,
+        unique: true,
+        fields: [{ name: `id` }]
+      }
+    ]
   }
 );
 

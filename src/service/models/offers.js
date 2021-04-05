@@ -8,17 +8,17 @@ class OfferModel extends Model {}
 OfferModel.init(
   {
     id: {
-      type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true
     },
     title: {
       type: DataTypes.STRING,
       allowNull: false
     },
     description: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false
     },
     sum: {
@@ -26,14 +26,22 @@ OfferModel.init(
       allowNull: false
     },
     typeId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.SMALLINT,
       allowNull: false,
-      field: `type_id`
+      field: `type_id`,
+      references: {
+        model: `types`,
+        key: `id`
+      }
     },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      field: `user_id`
+      field: `user_id`,
+      references: {
+        model: `users`,
+        key: `id`
+      }
     },
     picture: {
       type: DataTypes.STRING
@@ -48,8 +56,16 @@ OfferModel.init(
     sequelize,
     modelName: `OfferModel`,
     tableName: `offers`,
+    schema: `public`,
     timestamps: true,
-    updatedAt: false
+    updatedAt: false,
+    indexes: [
+      {
+        name: `offers_pkey`,
+        unique: true,
+        fields: [{ name: `id` }]
+      }
+    ]
   }
 );
 

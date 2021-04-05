@@ -113,34 +113,11 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 CREATE TABLE public.offer_categories (
     offer_id integer NOT NULL,
-    category_id integer NOT NULL,
-    id integer NOT NULL
+    category_id integer NOT NULL
 );
 
 
 ALTER TABLE public.offer_categories OWNER TO postgres;
-
---
--- Name: offer_categories_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public.offer_categories_id_seq
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public.offer_categories_id_seq OWNER TO postgres;
-
---
--- Name: offer_categories_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public.offer_categories_id_seq OWNED BY public.offer_categories.id;
-
 
 --
 -- Name: offers; Type: TABLE; Schema: public; Owner: postgres
@@ -270,13 +247,6 @@ ALTER TABLE ONLY public.comments ALTER COLUMN id SET DEFAULT nextval('public.com
 
 
 --
--- Name: offer_categories id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.offer_categories ALTER COLUMN id SET DEFAULT nextval('public.offer_categories_id_seq'::regclass);
-
-
---
 -- Name: offers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -317,7 +287,7 @@ COPY public.comments (id, offer_id, text, created_at, user_id) FROM stdin;
 -- Data for Name: offer_categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.offer_categories (offer_id, category_id, id) FROM stdin;
+COPY public.offer_categories (offer_id, category_id) FROM stdin;
 \.
 
 
@@ -362,13 +332,6 @@ SELECT pg_catalog.setval('public.comments_id_seq', 1, true);
 
 
 --
--- Name: offer_categories_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public.offer_categories_id_seq', 1, true);
-
-
---
 -- Name: offers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
@@ -403,14 +366,6 @@ ALTER TABLE ONLY public.categories
 
 ALTER TABLE ONLY public.comments
     ADD CONSTRAINT comments_pkey PRIMARY KEY (id);
-
-
---
--- Name: offer_categories offer_categories_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.offer_categories
-    ADD CONSTRAINT offer_categories_pk PRIMARY KEY (id);
 
 
 --

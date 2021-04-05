@@ -12,12 +12,6 @@ const Aliase = require(`./constants/aliase`);
 class OfferCategory extends Model {}
 OfferCategory.init(
   {
-    id: {
-      autoIncrement: true,
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true
-    },
     offerId: {
       type: DataTypes.INTEGER,
       allowNull: false,

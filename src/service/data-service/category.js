@@ -15,7 +15,7 @@ class CategoryService {
         `label`,
         `picture`,
         `retinaPicture`,
-        [Sequelize.fn(`COUNT`, `*`), `count`]
+        [Sequelize.fn(`COUNT`, Sequelize.col(`category_id`)), `count`]
       ],
       group: [Sequelize.col(`id`)],
       include: [
@@ -34,7 +34,7 @@ class CategoryService {
         `label`,
         `picture`,
         `retinaPicture`,
-        [Sequelize.fn(`COUNT`, `*`), `count`]
+        [Sequelize.fn(`COUNT`, Sequelize.col(`category_id`)), `count`]
       ],
       group: [Sequelize.col(`id`)],
       order: [[`id`, `ASC`]],

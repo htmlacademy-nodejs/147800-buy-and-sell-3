@@ -44,6 +44,24 @@ class OfferService {
     });
     return offers;
   }
+
+  async findPage({ categoryId, limit, offset }) {
+    const { count, rows } = await Offer.findAndCountAll({
+      limit,
+      offset,
+      include: [
+        Aliase.TYPE,
+        {
+          model: Category,
+          as: Aliase.CATEGORIES,
+          where: categoryId ? { id: categoryId } : {}
+        }
+      ],
+      distinct: true,
+      attributes: { exclude: [`type_id`] }
+    });
+    return { count, offers: rows };
+  }
 }
 
 module.exports = OfferService;

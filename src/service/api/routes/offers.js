@@ -15,14 +15,24 @@ const HttpCode = {
 
 offersRouter.get(`/`, async (req, res) => {
   try {
-    const { count, query, categoryId, userId } = req.query;
-    const categories = await new OfferService().findAll({
-      query,
-      count,
-      categoryId,
-      userId
-    });
-    res.status(HttpCode.OK).json(categories);
+    const { count, query, categoryId, userId, offset, limit } = req.query;
+    if (offset || limit) {
+      const offers = await new OfferService().findPage({
+        categoryId,
+        limit,
+        offset
+      });
+
+      res.status(HttpCode.OK).json(offers);
+    } else {
+      const offers = await new OfferService().findAll({
+        query,
+        count,
+        categoryId,
+        userId
+      });
+      res.status(HttpCode.OK).json(offers);
+    }
   } catch (error) {
     res.status(HttpCode.INTERNAL_SERVER_ERROR).send(error);
   }

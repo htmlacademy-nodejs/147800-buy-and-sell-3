@@ -8,6 +8,7 @@ const offersRouter = new Router();
 
 const URL = `http://localhost:3000`;
 const UPLOAD_DIR = `public/img`;
+const OFFERS_PER_PAGE = 8;
 
 const MimeTypeExtension = {
   "image/png": `png`,
@@ -59,14 +60,26 @@ offersRouter.get(`/category/:id`, async (req, res) => {
   const id = Number(req.params.id);
   const { data: categories } = await axios.get(`${URL}/api/categories`);
   const { data: category } = await axios.get(`${URL}/api/categories/${id}`);
-  const { data: offers } = await axios.get(
-    `${URL}/api/offers?categoryId=${id}`
-  );
+
+  let { page = 1 } = req.query;
+  page = +page;
+  const limit = OFFERS_PER_PAGE;
+  const offset = (page - 1) * OFFERS_PER_PAGE;
+
+  const {
+    data: { count, offers }
+  } = await axios.get(`${URL}/api/offers`, {
+    params: { categoryId: id, limit, offset }
+  });
+  const totalPages = Math.ceil(count / OFFERS_PER_PAGE);
+
   res.render(`offers/category`, {
     id,
     selectedCategory: category,
     categories,
-    offers
+    offers,
+    page,
+    totalPages
   });
 });
 offersRouter.get(`/edit/:id`, async (req, res) => {

@@ -22,8 +22,7 @@ CREATE TABLE users (
     first_name character varying(50) NOT NULL,
     last_name character varying(50) NOT NULL,
     email character varying(50) NOT NULL,
-    picture character varying(50) NOT NULL,
-    retina_picture character varying(50) NOT NULL,
+    avatar character varying(50) NOT NULL,
     password character varying(200)
 );
 

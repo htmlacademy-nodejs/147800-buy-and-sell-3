@@ -2,10 +2,13 @@
 
 const fs = require(`fs`).promises;
 const { Router } = require(`express`);
-const offerValidator = require(`../../middlewares/offer-validator`);
-const offersRouter = new Router();
-const { OfferService } = require(`../../data-service`);
 const { HttpCode } = require(`../../../constants`);
+const offerValidator = require(`../../middlewares/offer-validator`);
+const offerExist = require(`../../middlewares/offer-exists`);
+const commentValidator = require(`../../middlewares/comment-validator`);
+const routeParamsValidator = require(`../../middlewares/route-params-validator`);
+const { OfferService, CommentService } = require(`../../data-service`);
+const offersRouter = new Router();
 
 const FILENAME = `mocks.json`;
 
@@ -55,9 +58,20 @@ offersRouter.get(`/:offerId`, async (req, res) => {
   }
 });
 
-offersRouter.put(`/:offerId`, (req, res) => {
-  res.send(`Update offer with offerId="${req.params.offerId}"`);
-});
+offersRouter.put(
+  `/:offerId`,
+  [routeParamsValidator, offerValidator],
+  async (req, res) => {
+    const { offerId } = req.params;
+
+    const updated = await new OfferService().update(offerId, req.body);
+
+    if (!updated) {
+      return res.status(HttpCode.NOT_FOUND).send(`Not found with ${offerId}`);
+    }
+    return res.status(HttpCode.OK).send(`Updated`);
+  }
+);
 
 offersRouter.delete(`/:offerId`, (req, res) => {
   res.send(`Delete offer with offerId="${req.params.offerId}"`);
@@ -79,9 +93,17 @@ offersRouter.get(`/:offerId/comments`, async (req, res) => {
   }
 });
 
-offersRouter.post(`/:offerId/comments`, (req, res) => {
-  res.send(`Add new comment to offer with offerId="${req.params.offerId}"`);
-});
+offersRouter.post(
+  `/:offerId/comments`,
+  [routeParamsValidator, offerExist(OfferService), commentValidator],
+  async (req, res) => {
+    const { offerId } = req.params;
+
+    const comment = await new CommentService().create(offerId, req.body);
+
+    return res.status(HttpCode.CREATED).json(comment);
+  }
+);
 
 offersRouter.delete(`/:offerId/comments/:commentId`, (req, res) => {
   res.send(

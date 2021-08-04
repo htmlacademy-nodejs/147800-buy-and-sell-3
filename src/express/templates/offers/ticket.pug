@@ -1,4 +1,4 @@
-extends ../offers-layout.pug
+extends ../layout.pug
 
 block content
   -
@@ -12,14 +12,14 @@ block content
         h1.visually-hidden Карточка объявления
         .ticket__content
           .ticket__img
-            img(src=`/img/${offer.picture}`, srcset=`/img/${offer.retinaPicture} 2x`, alt='Изображение товара')
+            +getImage(offer.picture, 'Изображение товара')
           .ticket__info
             h2.ticket__title #{offer.title}
             .ticket__header
               p.ticket__price
                 span.js-sum #{offer.sum}
                 |  ₽
-              p.ticket__action #{offer.type.label}
+              p.ticket__action #{offer.type}
             .ticket__desc
               p
                 | #{offer.description}
@@ -38,7 +38,7 @@ block content
                 li
                   a.category-tile.category-tile--small(href='#')
                     span.category-tile__image
-                      img(src=`/img/${category.picture}`, srcset=`/img/${category.retinaPicture} 2x`, alt='Иконка категории')
+                      +getImage(category.picture, 'Иконка категории')
                     span.category-tile__label #{category.label}
         .ticket__comments
           h2.ticket__subtitle Коментарии

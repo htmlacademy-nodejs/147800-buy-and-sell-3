@@ -14,17 +14,17 @@ const FILE_COMMENTS_PATH = `./data/comments.txt`;
 
 const OfferType = {
   OFFER: `Куплю`,
-  SALE: `Продам`,
+  SALE: `Продам`
 };
 
 const SumRestrict = {
   MIN: 1000,
-  MAX: 100000,
+  MAX: 100000
 };
 
 const PictureRestrict = {
   MIN: 1,
-  MAX: 16,
+  MAX: 16
 };
 
 const getPictureFileName = (number) =>
@@ -42,7 +42,6 @@ const generateOffers = (count, titles, categories, sentences, comments) =>
         category: [categories[getRandomInt(0, categories.length - 1)]],
         description: shuffle(sentences).slice(1, 5).join(` `),
         picture,
-        retinaPicture: picture.replace(`.jpg`, `@2x.jpg`),
         title: titles[getRandomInt(0, titles.length - 1)],
         type: Object.values(OfferType)[
           Math.floor(Math.random() * Object.keys(OfferType).length)
@@ -50,7 +49,7 @@ const generateOffers = (count, titles, categories, sentences, comments) =>
         sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
         comments: shuffle(comments)
           .slice(1, getRandomInt(0, comments.length - 1))
-          .map((comment) => ({ id: nanoid(), text: comment })),
+          .map((comment) => ({ id: nanoid(), text: comment }))
       };
     });
 
@@ -87,5 +86,5 @@ const run = async (args) => {
 module.exports = {
   name: `--generate`,
   run,
-  readContent,
+  readContent
 };

@@ -1,4 +1,4 @@
-extends ../my-layout.pug
+extends ../layout.pug
 
 block header
   header.header.header--logged
@@ -31,7 +31,7 @@ block content
                 h2.announce-card__title #{offer.title}
                 span.announce-card__info
                   span.announce-card__price ₽ #{offer.sum}
-                  span.announce-card__type #{offer.type.label}
+                  span.announce-card__type #{offer.type}
             ul.comments-list
               each comment in offer.comments
                 li.js-card

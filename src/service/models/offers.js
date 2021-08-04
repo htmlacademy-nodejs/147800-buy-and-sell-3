@@ -25,14 +25,9 @@ OfferModel.init(
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    typeId: {
-      type: DataTypes.SMALLINT,
-      allowNull: false,
-      field: `type_id`,
-      references: {
-        model: `types`,
-        key: `id`
-      }
+    type: {
+      type: DataTypes.STRING,
+      allowNull: false
     },
     userId: {
       type: DataTypes.INTEGER,
@@ -45,10 +40,6 @@ OfferModel.init(
     },
     picture: {
       type: DataTypes.STRING
-    },
-    retinaPicture: {
-      type: DataTypes.STRING,
-      field: `retina_picture`
     },
     createdAt: { type: DataTypes.DATE, field: `created_at` }
   },

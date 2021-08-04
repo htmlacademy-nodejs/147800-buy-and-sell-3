@@ -2,19 +2,12 @@ DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS offer_categories;
 DROP TABLE IF EXISTS offers;
 DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS types;
 DROP TABLE IF EXISTS categories;
 
 CREATE TABLE categories (
     id SERIAL PRIMARY KEY,
     label character varying(50) NOT NULL,
-    picture character varying(50),
-    retina_picture character varying(50)
-);
-
-CREATE TABLE types (
-    id SERIAL PRIMARY KEY,
-    label character varying(50) NOT NULL
+    picture character varying(50)
 );
 
 CREATE TABLE users (
@@ -30,16 +23,12 @@ CREATE TABLE offers (
     id SERIAL PRIMARY KEY,
     description text NOT NULL,
     picture character varying(50),
-    retina_picture character varying(50),
     title character varying(50) NOT NULL,
     sum integer NOT NULL,
-    type_id smallint NOT NULL,
+    type character varying(50) NOT NULL,
     created_at timestamp(0) without time zone NOT NULL,
     user_id integer NOT NULL,
     CONSTRAINT offers_fk FOREIGN KEY (user_id) REFERENCES users(id) 
-        ON UPDATE CASCADE 
-        ON DELETE RESTRICT,
-    CONSTRAINT offers_fk_1 FOREIGN KEY (type_id) REFERENCES types(id) 
         ON UPDATE CASCADE 
         ON DELETE RESTRICT
 );

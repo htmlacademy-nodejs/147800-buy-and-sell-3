@@ -1,4 +1,4 @@
-extends ../main-layout.pug
+extends ../layout.pug
 
 block content    
   main.page-content
@@ -13,9 +13,9 @@ block content
             li.search-results__item
               .ticket-card(class=`ticket-card--color0${index}`)
                 .ticket-card__img
-                  img(src=`/img/${searchedOffer.picture}`, srcset=`/img/${searchedOffer.retinaPicture} 2x`, alt=`Изображение товара`)
+                  +getImage(searchedOffer.picture, `Изображение товара`)
                 .ticket-card__info
-                  span.ticket-card__label #{searchedOffer.type.label}
+                  span.ticket-card__label #{searchedOffer.type}
                   .ticket-card__categories
                     each category in searchedOffer.categories
                       a(href=`#`) #{category.label}
@@ -38,9 +38,9 @@ block content
             li.tickets-list__item
               .ticket-card(class=`ticket-card--color0${index}`)
                 .ticket-card__img
-                  img(src=`/img/${offer.picture}`, srcset=`/img/${offer.retinaPicture} 2x`, alt='Изображение товара')
+                  +getImage(offer.picture, 'Изображение товара')
                 .ticket-card__info
-                  span.ticket-card__label #{offer.type.label}
+                  span.ticket-card__label #{offer.type}
                   .ticket-card__categories
                     each offerCategory in offer.categories
                       a(href='#') #{offerCategory.label}

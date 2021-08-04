@@ -6,7 +6,6 @@ const {
   Category,
   Comment,
   Offer,
-  Type,
   User,
   OfferCategory
 } = require(`../models/index`);
@@ -32,15 +31,14 @@ class OfferService {
           model: Comment,
           as: Aliase.COMMENTS
         },
-        Aliase.TYPE,
-        { model: User, as: Aliase.USER, where: userId ? { id: userId } : {} },
+        { model: User, as: Aliase.USERS, where: userId ? { id: userId } : {} },
         {
           model: Category,
           as: Aliase.CATEGORIES,
           where: categoryId ? { id: categoryId } : {}
         }
       ],
-      attributes: { exclude: [`typeId`, `userId`] }
+      attributes: { exclude: [`userId`] }
     });
     return offers;
   }
@@ -50,7 +48,6 @@ class OfferService {
       limit,
       offset,
       include: [
-        Aliase.TYPE,
         {
           model: Category,
           as: Aliase.CATEGORIES,

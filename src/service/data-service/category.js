@@ -14,7 +14,6 @@ class CategoryService {
         `id`,
         `label`,
         `picture`,
-        `retinaPicture`,
         [Sequelize.fn(`COUNT`, Sequelize.col(`category_id`)), `count`]
       ],
       group: [Sequelize.col(`id`)],
@@ -33,7 +32,6 @@ class CategoryService {
         `id`,
         `label`,
         `picture`,
-        `retinaPicture`,
         [Sequelize.fn(`COUNT`, Sequelize.col(`category_id`)), `count`]
       ],
       group: [Sequelize.col(`id`)],

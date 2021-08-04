@@ -5,6 +5,5 @@ module.exports = {
   OFFERS: `offers`,
   CATEGORIES: `categories`,
   OFFER_CATEGORIES: `offerCategories`,
-  TYPE: `type`,
-  USER: `user`
+  USERS: `users`
 };

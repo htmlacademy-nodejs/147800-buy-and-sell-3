@@ -8,6 +8,39 @@ html(lang='ru')
     title Куплю. Продам
     link(rel='stylesheet' href='/css/style.min.css')
   body
+    mixin getImage(imageFile, altText)
+      -
+        const retinaImageFile = imageFile.split('.').join('@2x');
+
+      img(src=`/img/${imageFile}` srcset=`/img/${retinaImageFile} 2x` alt=altText)
+    mixin pagination(page, totalPages, width, prefix)
+      -
+        let start = page - width;
+        let end = page + width;
+        if(start < 1){
+          end += 1 - start;
+          start = 1;
+        }
+        if(end > totalPages){
+          start -= end - totalPages;
+          end = totalPages;
+        }
+        if(start < 1){
+          start = 1;
+        }
+        let i = start - 1
+
+      .tickets-list__pagination
+        ul.pagination
+          if start > 1
+            li
+              a(href=`${prefix}page=${page - 1}`) Назад
+          while i++ < end
+            li
+              a(class={active: i === page} href=`${prefix}page=${i}`)= i
+          if end < totalPages
+            li
+              a(href=`${prefix}page=${page + 1}`) Вперёд
     mixin errorMessage(message)
       if message
         .server-error= message

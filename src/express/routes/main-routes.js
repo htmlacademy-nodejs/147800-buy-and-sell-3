@@ -7,8 +7,24 @@ const mainRouter = new Router();
 
 const URL = `http://localhost:3000`;
 
-mainRouter.get(`/login`, (req, res) => res.render(`main/login`));
-mainRouter.get(`/register`, (req, res) => res.render(`main/sign-up`));
+mainRouter.get(`/login`, (req, res) => {
+  // TODO Module 7
+  // const { error } = req.query;
+  // const { user } = req.session;
+  res.render(
+    `login`
+    // , { error, user }
+  );
+});
+mainRouter.get(`/register`, (req, res) => {
+  // TODO Module 7
+  // const { error } = req.query;
+  // const { user } = req.session;
+  res.render(
+    `sign-up`
+    // , { error, user }
+  );
+});
 mainRouter.get(`/search`, async (req, res) => {
   const { data: offers } = await axios.get(`${URL}/api/offers`);
   const { data: searchedOffers } = await axios.get(`${URL}/api/offers`, {

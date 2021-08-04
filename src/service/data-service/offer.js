@@ -11,6 +11,11 @@ const {
 } = require(`../models/index`);
 
 class OfferService {
+  async create(offerData) {
+    const offer = await Offer.create(offerData);
+    return offer.get();
+  }
+
   async findAll({ query, offerId, userId, categoryId }) {
     let whereStatement = {};
     if (offerId) {

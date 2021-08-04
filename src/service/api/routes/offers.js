@@ -2,16 +2,12 @@
 
 const fs = require(`fs`).promises;
 const { Router } = require(`express`);
+const offerValidator = require(`../../middlewares/offer-validator`);
 const offersRouter = new Router();
 const { OfferService } = require(`../../data-service`);
+const { HttpCode } = require(`../../../constants`);
 
 const FILENAME = `mocks.json`;
-
-const HttpCode = {
-  OK: 200,
-  NOT_FOUND: 404,
-  INTERNAL_SERVER_ERROR: 500
-};
 
 offersRouter.get(`/`, async (req, res) => {
   try {
@@ -38,8 +34,10 @@ offersRouter.get(`/`, async (req, res) => {
   }
 });
 
-offersRouter.post(`/`, (req, res) => {
-  res.send(`Add new offer`);
+offersRouter.post(`/`, offerValidator, async (req, res) => {
+  const offer = await new OfferService().create(req.body);
+
+  return res.status(HttpCode.CREATED).json(offer);
 });
 
 offersRouter.get(`/:offerId`, async (req, res) => {

@@ -49,7 +49,7 @@ offersRouter.get(`/add`, async (req, res) => {
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
   const { user } = req.session;
   const { body, file } = req;
-  console.log({ body, file });
+
   const offerData = {
     picture: file.filename,
     sum: body.price,

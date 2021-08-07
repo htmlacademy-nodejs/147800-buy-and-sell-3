@@ -4,6 +4,8 @@ const { Router } = require(`express`);
 const axios = require(`axios`);
 const multer = require(`multer`);
 const { nanoid } = require(`nanoid`);
+const upload = require(`../middlewares/upload`);
+const { ensureArray } = require(`../../utils`);
 const offersRouter = new Router();
 
 const URL = `http://localhost:3000`;
@@ -30,30 +32,41 @@ const fileFilter = (req, file, cb) => {
   cb(null, isValid);
 };
 
-const upload = multer({
-  storage,
-  fileFilter,
-  limits: {
-    fileSize: 5 * 1024 * 1024
-  }
-});
+// const upload = multer({
+//   storage,
+//   fileFilter,
+//   limits: {
+//     fileSize: 5 * 1024 * 1024
+//   }
+// });
 
 offersRouter.get(`/add`, async (req, res) => {
   const { data: categories } = await axios.get(`${URL}/api/categories`);
   res.render(`offers/new-ticket`, {
-    data: {},
     categories
   });
 });
 offersRouter.post(`/add`, upload.single(`avatar`), async (req, res) => {
-  const { file } = req;
+  const { user } = req.session;
+  const { body, file } = req;
+
+  const offerData = {
+    picture: file.filename,
+    sum: body.price,
+    type: body.action,
+    description: body.comment,
+    title: body[`ticket-name`],
+    categories: ensureArray(body.category),
+    userId: user.id
+  };
 
   try {
-    await axios.post(`${URL}/api/offers`, req.body);
+    await axios.post(`${URL}/api/offers`, offerData);
     res.redirect(`/my`);
   } catch (error) {
-    const { data: categories } = await axios.get(`${URL}/api/categories`);
-    res.render(`offers/new-ticket`, { data: req.body, categories });
+    res.redirect(
+      `/offers/add?error=${encodeURIComponent(error.response.data)}`
+    );
   }
 });
 offersRouter.get(`/category/:id`, async (req, res) => {

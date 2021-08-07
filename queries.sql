@@ -17,7 +17,7 @@ SELECT
   offers.id, 
   offers.title, 
   offers.sum, 
-  types.label as type, 
+  offers.type,
   offers.description, 
   offers.created_at, 
   users.first_name as user_first_name, 
@@ -29,9 +29,8 @@ SELECT
 INNER JOIN offer_categories ON offer_categories.offer_id = offers.id
 INNER JOIN categories ON categories.id = offer_categories.category_id
 LEFT JOIN comments ON comments.offer_id = offers.id
-INNER JOIN types ON offers.type_id = types.id
 INNER JOIN users ON users.id = offers.user_id
-GROUP BY offers.id, types.id, users.id
+GROUP BY offers.id, users.id
 ORDER BY offers.created_at DESC;
 
 -- get info for selected offer (id, title, sum, type, description, date, author first name, author last name, author email, comments count, categories list)
@@ -39,7 +38,7 @@ SELECT
   offers.id, 
   offers.title, 
   offers.sum, 
-  types.label as type, 
+  offers.type, 
   offers.description, 
   offers.created_at, 
   users.first_name as user_first_name, 
@@ -51,10 +50,9 @@ SELECT
 INNER JOIN offer_categories ON offer_categories.offer_id = offers.id
 INNER JOIN categories ON categories.id = offer_categories.category_id
 LEFT JOIN comments ON comments.offer_id = offers.id
-INNER JOIN types ON offers.type_id = types.id
 INNER JOIN users ON users.id = offers.user_id
 WHERE offers.id = 1
-GROUP BY offers.id, types.id, users.id;
+GROUP BY offers.id, users.id;
 
 -- get 5 newest comments (id, offer id, user first name, user last name, text)
 SELECT 
@@ -85,8 +83,7 @@ ORDER BY comments.created_at DESC;
 SELECT 
   offers.*
 FROM offers 
-INNER JOIN types ON offers.type_id = types.id
-WHERE types.label = 'Куплю'
+WHERE offers.type = 'Куплю'
 LIMIT 2;
 
 -- update title for selected offer

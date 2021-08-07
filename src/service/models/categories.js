@@ -19,10 +19,6 @@ CategoryModel.init(
     },
     picture: {
       type: DataTypes.STRING
-    },
-    retinaPicture: {
-      type: DataTypes.STRING,
-      field: `retina_picture`
     }
   },
   {

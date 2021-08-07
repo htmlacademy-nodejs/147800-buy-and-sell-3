@@ -27,12 +27,11 @@ UserModel.init(
       type: DataTypes.STRING,
       allowNull: false
     },
-    picture: {
+    avatar: {
       type: DataTypes.STRING
     },
-    retinaPicture: {
-      type: DataTypes.STRING,
-      field: `retina_picture`
+    password: {
+      type: DataTypes.STRING
     }
   },
   {

@@ -5,7 +5,6 @@ const sequelize = require(`../sequelize`);
 const Category = require(`./categories`);
 const Comment = require(`./comments`);
 const Offer = require(`./offers`);
-const Type = require(`./types`);
 const User = require(`./users`);
 const Aliase = require(`./constants/aliase`);
 
@@ -47,9 +46,6 @@ OfferCategory.init(
   }
 );
 
-Type.hasOne(Offer, { foreignKey: `typeId` });
-Offer.belongsTo(Type, { as: Aliase.TYPE, foreignKey: `typeId` });
-
 Offer.hasMany(Comment, { as: Aliase.COMMENTS, foreignKey: `offerId` });
 Comment.belongsTo(Offer, { foreignKey: `offerId` });
 
@@ -65,10 +61,10 @@ Category.belongsToMany(Offer, {
 Category.hasMany(OfferCategory, { foreignKey: `categoryId` });
 Offer.hasMany(OfferCategory, { foreignKey: `offerId` });
 
-// Comment.belongsTo(User, { foreignKey: `userId`, as: Aliase.USER });
+// Comment.belongsTo(User, { foreignKey: `userId`, as: Aliase.USERS });
 // User.hasMany(Comment, { foreignKey: `userId` });
 
 User.hasMany(Offer, { foreignKey: `userId` });
-Offer.belongsTo(User, { as: Aliase.USER, foreignKey: `userId` });
+Offer.belongsTo(User, { as: Aliase.USERS, foreignKey: `userId` });
 
-module.exports = { Category, Comment, Offer, OfferCategory, Type, User };
+module.exports = { Category, Comment, Offer, OfferCategory, User };

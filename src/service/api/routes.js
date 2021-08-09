@@ -2,6 +2,7 @@
 
 const { Router } = require(`express`);
 const offersRoutes = require(`./routes/offers`);
+const usersRoutes = require(`./routes/users`);
 const { CategoryService } = require(`../data-service`);
 const OfferService = require(`../data-service/offer`);
 
@@ -13,6 +14,8 @@ const HttpCode = {
 };
 
 app.use(`/offers`, offersRoutes);
+
+app.use(`/user`, usersRoutes);
 
 app.get(`/categories`, async (req, res) => {
   const { count } = req.query;
@@ -27,7 +30,7 @@ app.get(`/categories/:id`, async (req, res) => {
 });
 
 app.get(`/cat`, async (req, res) => {
-  const categories = await new OfferService().findAll();
+  const categories = await new OfferService().findAll(true);
   res.json(categories);
 });
 

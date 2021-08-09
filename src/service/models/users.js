@@ -13,15 +13,9 @@ UserModel.init(
       allowNull: false,
       primaryKey: true
     },
-    firstName: {
+    name: {
       type: DataTypes.STRING,
-      allowNull: false,
-      field: `first_name`
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      field: `last_name`
+      allowNull: false
     },
     email: {
       type: DataTypes.STRING,

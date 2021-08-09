@@ -61,10 +61,10 @@ Category.belongsToMany(Offer, {
 Category.hasMany(OfferCategory, { foreignKey: `categoryId` });
 Offer.hasMany(OfferCategory, { foreignKey: `offerId` });
 
-// Comment.belongsTo(User, { foreignKey: `userId`, as: Aliase.USERS });
-// User.hasMany(Comment, { foreignKey: `userId` });
+User.hasMany(Comment, { as: Aliase.COMMENTS, foreignKey: `userId` });
+Comment.belongsTo(User, { as: Aliase.USER, foreignKey: `userId` });
 
-User.hasMany(Offer, { foreignKey: `userId` });
-Offer.belongsTo(User, { as: Aliase.USERS, foreignKey: `userId` });
+User.hasMany(Offer, { as: Aliase.OFFERS, foreignKey: `userId` });
+Offer.belongsTo(User, { as: Aliase.USER, foreignKey: `userId` });
 
 module.exports = { Category, Comment, Offer, OfferCategory, User };

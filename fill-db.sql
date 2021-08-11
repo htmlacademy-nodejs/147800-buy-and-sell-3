@@ -8,11 +8,11 @@ INSERT INTO categories (label, picture) VALUES
 ('Книги', 'cat06.jpg');
 
 -- Add app users
-INSERT INTO users (first_name, last_name, email, avatar) VALUES
-('Иван', 'Иванов', 'ivan.ivanov@yandex.ru', 'avatar01.jpg'),
-('Георгий', 'Шпиц', 'george.spitz@yandex.ru', 'avatar02.jpg'),
-('Александр', 'Бурый', 'alexander.buriy@yandex.ru', 'avatar03.jpg'),
-('Анатолий', 'Хакимов', 'anatoly.khakimov@yandex.ru', 'avatar04.jpg');
+INSERT INTO users (name, email, avatar) VALUES
+('Иван Иванов', 'ivan.ivanov@yandex.ru', 'avatar01.jpg'),
+('Георгий Шпиц', 'george.spitz@yandex.ru', 'avatar02.jpg'),
+('Александр Бурый', 'alexander.buriy@yandex.ru', 'avatar03.jpg'),
+('Анатолий Хакимов', 'anatoly.khakimov@yandex.ru', 'avatar04.jpg');
 
 -- Add offers
 INSERT INTO offers (title, description, type, sum, user_id, picture, created_at) VALUES

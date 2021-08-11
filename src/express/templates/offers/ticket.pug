@@ -29,7 +29,7 @@ block content
                 span #{formatDate(offer.createdAt)}
               p
                 b Автор: 
-                a(href='#') #{offer.user.firstName} #{offer.user.lastName}
+                a(href='#') #{offer.user.name}
               p
                 b Контакты: 
                 a(href=`mailto:${offer.user.email}`) #{offer.user.email}

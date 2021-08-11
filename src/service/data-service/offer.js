@@ -17,44 +17,12 @@ class OfferService {
     return !!affectedRows;
   }
 
-  async findAll({ query, offerId, userId, categoryId }) {
-    let whereStatement = {};
-    if (offerId) {
-      whereStatement = { ...whereStatement, id: offerId };
-    }
-    if (query) {
-      whereStatement = {
-        ...whereStatement,
-        title: {
-          [Op.substring]: query
-        }
-      };
-    }
-    const offers = await Offer.findAll({
-      where: whereStatement,
-      include: [
-        {
-          model: Comment,
-          as: Aliase.COMMENTS
-        },
-        { model: User, as: Aliase.USERS, where: userId ? { id: userId } : {} },
-        {
-          model: Category,
-          as: Aliase.CATEGORIES,
-          where: categoryId ? { id: categoryId } : {}
-        }
-      ],
-      attributes: { exclude: [`userId`] }
-    });
-    return offers;
-  }
-
-  findOne(id, needComments) {
+  async findAll(needComments) {
     const include = [
       Aliase.CATEGORIES,
       {
         model: User,
-        as: Aliase.USERS,
+        as: Aliase.USER,
         attributes: {
           exclude: [`password`]
         }
@@ -67,7 +35,37 @@ class OfferService {
         include: [
           {
             model: User,
-            as: Aliase.USERS,
+            as: Aliase.USER,
+            attributes: {
+              exclude: [`password`]
+            }
+          }
+        ]
+      });
+    }
+    const offers = await Offer.findAll({ include });
+    return offers.map((item) => item.get());
+  }
+
+  findOne(id, needComments) {
+    const include = [
+      Aliase.CATEGORIES,
+      {
+        model: User,
+        as: Aliase.USER,
+        attributes: {
+          exclude: [`password`]
+        }
+      }
+    ];
+    if (needComments) {
+      include.push({
+        model: Comment,
+        as: Aliase.COMMENTS,
+        include: [
+          {
+            model: User,
+            as: Aliase.USER,
             attributes: {
               exclude: [`password`]
             }

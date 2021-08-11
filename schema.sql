@@ -12,8 +12,7 @@ CREATE TABLE categories (
 
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    first_name character varying(50) NOT NULL,
-    last_name character varying(50) NOT NULL,
+    name character varying(50) NOT NULL,
     email character varying(50) NOT NULL,
     avatar character varying(50) NOT NULL,
     password character varying(200)
